@@ -1,19 +1,24 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useSignup } from "@/hooks/api";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
+    StrUserID: "",
+    Email: "",
+    Password: "",
     confirmPassword: "",
     agreeTerms: false,
     newsletter: false
   });
+
+  const signupMutation = useSignup();
+  const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -30,10 +35,27 @@ const Signup = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // This will be implemented with Supabase integration
-    console.log("Signup attempt:", formData);
+    
+    if (!formData.agreeTerms) {
+      return;
+    }
+
+    if (formData.Password !== formData.confirmPassword) {
+      return;
+    }
+
+    try {
+      await signupMutation.mutateAsync({
+        StrUserID: formData.StrUserID,
+        Email: formData.Email,
+        Password: formData.Password,
+      });
+      navigate("/login");
+    } catch (error) {
+      // Error handling is done in the mutation hook
+    }
   };
 
   return (
@@ -56,47 +78,47 @@ const Signup = () => {
             
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="username" className="text-foreground">Username</Label>
-                  <Input
-                    id="username"
-                    name="username"
-                    type="text"
-                    placeholder="Choose your warrior name"
-                    value={formData.username}
-                    onChange={handleInputChange}
-                    className="bg-muted/50 border-border focus:border-primary"
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-foreground">Email Address</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="your.email@example.com"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="bg-muted/50 border-border focus:border-primary"
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="password" className="text-foreground">Password</Label>
-                  <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="Create a strong password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    className="bg-muted/50 border-border focus:border-primary"
-                    required
-                  />
-                </div>
+                 <div className="space-y-2">
+                   <Label htmlFor="StrUserID" className="text-foreground">Username</Label>
+                   <Input
+                     id="StrUserID"
+                     name="StrUserID"
+                     type="text"
+                     placeholder="Choose your warrior name"
+                     value={formData.StrUserID}
+                     onChange={handleInputChange}
+                     className="bg-muted/50 border-border focus:border-primary"
+                     required
+                   />
+                 </div>
+                 
+                 <div className="space-y-2">
+                   <Label htmlFor="Email" className="text-foreground">Email Address</Label>
+                   <Input
+                     id="Email"
+                     name="Email"
+                     type="email"
+                     placeholder="your.email@example.com"
+                     value={formData.Email}
+                     onChange={handleInputChange}
+                     className="bg-muted/50 border-border focus:border-primary"
+                     required
+                   />
+                 </div>
+                 
+                 <div className="space-y-2">
+                   <Label htmlFor="Password" className="text-foreground">Password</Label>
+                   <Input
+                     id="Password"
+                     name="Password"
+                     type="password"
+                     placeholder="Create a strong password"
+                     value={formData.Password}
+                     onChange={handleInputChange}
+                     className="bg-muted/50 border-border focus:border-primary"
+                     required
+                   />
+                 </div>
                 
                 <div className="space-y-2">
                   <Label htmlFor="confirmPassword" className="text-foreground">Confirm Password</Label>
@@ -141,25 +163,25 @@ const Signup = () => {
                   </div>
                 </div>
                 
-                <Button
-                  type="submit"
-                  variant="epic"
-                  size="lg"
-                  className="w-full text-lg"
-                  disabled={!formData.agreeTerms}
-                >
-                  Create My Account
-                </Button>
+                 <Button
+                   type="submit"
+                   variant="epic"
+                   size="lg"
+                   className="w-full text-lg"
+                   disabled={!formData.agreeTerms || signupMutation.isPending}
+                 >
+                   {signupMutation.isPending ? "Creating Account..." : "Create My Account"}
+                 </Button>
               </form>
               
-              <div className="mt-6 text-center">
-                <p className="text-muted-foreground">
-                  Already have an account?{" "}
-                  <a href="#" className="text-primary hover:underline font-medium">
-                    Sign In
-                  </a>
-                </p>
-              </div>
+               <div className="mt-6 text-center">
+                 <p className="text-muted-foreground">
+                   Already have an account?{" "}
+                   <Link to="/login" className="text-primary hover:underline font-medium">
+                     Sign In
+                   </Link>
+                 </p>
+               </div>
               
               <div className="mt-6 p-4 bg-primary/10 border border-primary/20 rounded-lg">
                 <h3 className="font-bold text-primary mb-2">Account Benefits:</h3>

@@ -1,23 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useTopPlayers, useTopGuilds } from "@/hooks/api";
 
 const Rankings = () => {
-  const topPlayers = [
-    { rank: 1, name: "ShadowMaster", level: 110, job: "Wizard", kills: 2847 },
-    { rank: 2, name: "DragonSlayer", level: 110, job: "Warrior", kills: 2523 },
-    { rank: 3, name: "SilkTrader", level: 109, job: "Rogue", kills: 2156 },
-    { rank: 4, name: "MysticBlade", level: 108, job: "Warrior", kills: 1984 },
-    { rank: 5, name: "PhoenixRise", level: 107, job: "Wizard", kills: 1756 }
-  ];
-
-  const topGuilds = [
-    { rank: 1, name: "DragonKnights", level: 7, members: 50, points: 15420 },
-    { rank: 2, name: "SilkWarriors", level: 6, members: 48, points: 12850 },
-    { rank: 3, name: "PhoenixLegion", level: 6, members: 45, points: 11640 },
-    { rank: 4, name: "ShadowClan", level: 5, members: 42, points: 9750 },
-    { rank: 5, name: "MysticOrder", level: 5, members: 38, points: 8960 }
-  ];
-
+  const { data: topPlayersData, isLoading: isLoadingPlayers } = useTopPlayers();
+  const { data: topGuildsData, isLoading: isLoadingGuilds } = useTopGuilds();
+  // Mock data for killers (backend doesn't have this endpoint yet)
   const topKillers = [
     { rank: 1, name: "Assassin_X", kills: 3847, deaths: 245, ratio: "15.7" },
     { rank: 2, name: "BloodHunter", kills: 3523, deaths: 298, ratio: "11.8" },
@@ -66,25 +55,43 @@ const Rankings = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {topPlayers.map((player) => (
-                <div key={player.rank} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-primary/10 hover:border-primary/30 transition-all duration-200">
-                  <div className="flex items-center gap-3">
-                    <span className={`text-xl font-bold ${getRankColor(player.rank)}`}>
-                      {getRankIcon(player.rank)}
-                    </span>
-                    <div>
-                      <div className="font-bold text-foreground">{player.name}</div>
-                      <div className="text-sm text-muted-foreground">
-                        Lv.{player.level} {player.job}
+              {isLoadingPlayers ? (
+                Array.from({ length: 5 }).map((_, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-primary/10">
+                    <div className="flex items-center gap-3">
+                      <Skeleton className="w-6 h-6" />
+                      <div>
+                        <Skeleton className="h-4 w-24 mb-1" />
+                        <Skeleton className="h-3 w-16" />
                       </div>
                     </div>
+                    <div className="text-right">
+                      <Skeleton className="h-4 w-12 mb-1" />
+                      <Skeleton className="h-3 w-8" />
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-sm text-primary font-bold">{player.kills.toLocaleString()}</div>
-                    <div className="text-xs text-muted-foreground">Kills</div>
+                ))
+              ) : (
+                topPlayersData?.topPlayers?.slice(0, 5).map((player, index) => (
+                  <div key={player.CharID} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-primary/10 hover:border-primary/30 transition-all duration-200">
+                    <div className="flex items-center gap-3">
+                      <span className={`text-xl font-bold ${getRankColor(index + 1)}`}>
+                        {getRankIcon(index + 1)}
+                      </span>
+                      <div>
+                        <div className="font-bold text-foreground">{player.CharName16}</div>
+                        <div className="text-sm text-muted-foreground">
+                          Lv.{player.CurLevel}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm text-primary font-bold">{player.ItemPoints.toLocaleString()}</div>
+                      <div className="text-xs text-muted-foreground">Item Points</div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
               <Button variant="outline" className="w-full mt-4">View Full Ranking</Button>
             </CardContent>
           </Card>
@@ -97,25 +104,43 @@ const Rankings = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {topGuilds.map((guild) => (
-                <div key={guild.rank} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-primary/10 hover:border-primary/30 transition-all duration-200">
-                  <div className="flex items-center gap-3">
-                    <span className={`text-xl font-bold ${getRankColor(guild.rank)}`}>
-                      {getRankIcon(guild.rank)}
-                    </span>
-                    <div>
-                      <div className="font-bold text-foreground">[{guild.name}]</div>
-                      <div className="text-sm text-muted-foreground">
-                        Lv.{guild.level} • {guild.members} members
+              {isLoadingGuilds ? (
+                Array.from({ length: 5 }).map((_, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-primary/10">
+                    <div className="flex items-center gap-3">
+                      <Skeleton className="w-6 h-6" />
+                      <div>
+                        <Skeleton className="h-4 w-24 mb-1" />
+                        <Skeleton className="h-3 w-16" />
                       </div>
                     </div>
+                    <div className="text-right">
+                      <Skeleton className="h-4 w-12 mb-1" />
+                      <Skeleton className="h-3 w-8" />
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-sm text-secondary font-bold">{guild.points.toLocaleString()}</div>
-                    <div className="text-xs text-muted-foreground">Points</div>
+                ))
+              ) : (
+                topGuildsData?.topGuilds?.slice(0, 5).map((guild, index) => (
+                  <div key={guild.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-primary/10 hover:border-primary/30 transition-all duration-200">
+                    <div className="flex items-center gap-3">
+                      <span className={`text-xl font-bold ${getRankColor(index + 1)}`}>
+                        {getRankIcon(index + 1)}
+                      </span>
+                      <div>
+                        <div className="font-bold text-foreground">[{guild.name}]</div>
+                        <div className="text-sm text-muted-foreground">
+                          Lv.{guild.lvl}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm text-secondary font-bold">{guild.ItemPoints.toLocaleString()}</div>
+                      <div className="text-xs text-muted-foreground">Item Points</div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
               <Button variant="outline" className="w-full mt-4">View Guild Wars</Button>
             </CardContent>
           </Card>

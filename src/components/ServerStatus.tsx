@@ -1,6 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useServerTime, useOnlinePlayersCount } from "@/hooks/api";
 
 const ServerStatus = () => {
+  const { data: serverTimeData, isLoading: isLoadingTime } = useServerTime();
+  const { data: onlinePlayersData, isLoading: isLoadingPlayers } = useOnlinePlayersCount();
+
+  const formatServerTime = (timeString?: string) => {
+    if (!timeString) return "Loading...";
+    return new Date(timeString).toLocaleTimeString();
+  };
   return (
     <section className="py-16 bg-muted/30">
       <div className="container mx-auto px-6">
@@ -16,15 +25,29 @@ const ServerStatus = () => {
             <CardContent className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Players Online</span>
-                <span className="text-2xl font-bold text-green-400 animate-pulse">2,847</span>
+                {isLoadingPlayers ? (
+                  <Skeleton className="h-8 w-16" />
+                ) : (
+                  <span className="text-2xl font-bold text-green-400 animate-pulse">
+                    {onlinePlayersData?.onlinePlayers?.toLocaleString() || "0"}
+                  </span>
+                )}
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Server Time</span>
-                <span className="text-lg font-mono text-secondary">15:42:33 UTC</span>
+                {isLoadingTime ? (
+                  <Skeleton className="h-6 w-24" />
+                ) : (
+                  <span className="text-lg font-mono text-secondary">
+                    {formatServerTime(serverTimeData?.serverTime)}
+                  </span>
+                )}
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Server Status</span>
-                <span className="text-green-400 font-semibold">● ONLINE</span>
+                <span className="text-green-400 font-semibold">
+                  ● {(isLoadingPlayers || isLoadingTime) ? "CHECKING..." : "ONLINE"}
+                </span>
               </div>
             </CardContent>
           </Card>

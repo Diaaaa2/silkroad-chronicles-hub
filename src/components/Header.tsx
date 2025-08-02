@@ -22,7 +22,9 @@ const Header = () => {
           </nav>
           
           <div className="flex items-center space-x-4">
-            <Button variant="outline">Login</Button>
+            <Link to="/login">
+              <Button variant="outline">Login</Button>
+            </Link>
             <Link to="/signup">
               <Button variant="epic">Sign Up Free</Button>
             </Link>
