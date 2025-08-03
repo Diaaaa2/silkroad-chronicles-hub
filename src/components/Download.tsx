@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 
 const Download = () => {
   return (
@@ -42,11 +43,15 @@ const Download = () => {
               </div>
               
               <div className="text-center space-y-6">
-                <Button variant="hero" size="lg" className="text-2xl px-16 py-6">
-                  Download Game Client
-                </Button>
+                <Link to="/download">
+                  <Button variant="hero" size="lg" className="text-2xl px-16 py-6">
+                    Download Game Client
+                  </Button>
+                </Link>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button variant="epic">Create Account</Button>
+                  <Link to="/signup">
+                    <Button variant="epic">Create Account</Button>
+                  </Link>
                   <Button variant="game">System Requirements</Button>
                 </div>
               </div>

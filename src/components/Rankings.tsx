@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTopPlayers, useTopGuilds } from "@/hooks/api";
+import { Link } from "react-router-dom";
 
 const Rankings = () => {
   const { data: topPlayersData, isLoading: isLoadingPlayers } = useTopPlayers();
@@ -79,7 +80,12 @@ const Rankings = () => {
                         {getRankIcon(index + 1)}
                       </span>
                       <div>
-                        <div className="font-bold text-foreground">{player.CharName16}</div>
+                        <Link 
+                          to={`/character/${player.CharID}`}
+                          className="font-bold text-foreground hover:text-primary transition-colors"
+                        >
+                          {player.CharName16}
+                        </Link>
                         <div className="text-sm text-muted-foreground">
                           Lv.{player.CurLevel}
                         </div>
@@ -128,7 +134,12 @@ const Rankings = () => {
                         {getRankIcon(index + 1)}
                       </span>
                       <div>
-                        <div className="font-bold text-foreground">[{guild.name}]</div>
+                        <Link 
+                          to={`/guild/${guild.id}`}
+                          className="font-bold text-foreground hover:text-primary transition-colors"
+                        >
+                          [{guild.name}]
+                        </Link>
                         <div className="text-sm text-muted-foreground">
                           Lv.{guild.lvl}
                         </div>

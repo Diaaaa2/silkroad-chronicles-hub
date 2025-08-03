@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/silkroad-hero.jpg";
+import { Link } from "react-router-dom";
+import heroImage from "@/assets/silkroad-hero-new.jpg";
 
 const Hero = () => {
   return (
@@ -27,9 +28,11 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
-            <Button variant="hero" size="lg" className="text-xl px-12 py-4">
-              Start Your Journey
-            </Button>
+            <Link to="/signup">
+              <Button variant="hero" size="lg" className="text-xl px-12 py-4">
+                Start Your Journey
+              </Button>
+            </Link>
             <Button variant="game" size="lg" className="text-xl px-12 py-4">
               Watch Trailer
             </Button>

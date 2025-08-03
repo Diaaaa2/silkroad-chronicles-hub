@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import ServerStatus from "@/components/ServerStatus";
 import Features from "@/components/Features";
 import GameTimers from "@/components/GameTimers";
-import Classes from "@/components/Classes";
+
 import Rankings from "@/components/Rankings";
 import News from "@/components/News";
 import Download from "@/components/Download";
@@ -17,7 +17,7 @@ const Index = () => {
       <ServerStatus />
       <Features />
       <GameTimers />
-      <Classes />
+      
       <Rankings />
       <News />
       <Download />

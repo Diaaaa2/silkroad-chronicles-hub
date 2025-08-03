@@ -8,6 +8,10 @@ import Index from "./pages/Index";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import NotFound from "./pages/NotFound";
+import DownloadPage from "./pages/DownloadPage";
+import AccountPage from "./pages/AccountPage";
+import CharacterPage from "./pages/CharacterPage";
+import GuildPage from "./pages/GuildPage";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +26,10 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/download" element={<DownloadPage />} />
+            <Route path="/account" element={<AccountPage />} />
+            <Route path="/character/:id" element={<CharacterPage />} />
+            <Route path="/guild/:id" element={<GuildPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
