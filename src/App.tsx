@@ -12,6 +12,8 @@ import DownloadPage from "./pages/DownloadPage";
 import AccountPage from "./pages/AccountPage";
 import CharacterPage from "./pages/CharacterPage";
 import GuildPage from "./pages/GuildPage";
+import RankingsPage from "./pages/RankingsPage";
+import AdminPage from "./pages/AdminPage";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +32,8 @@ const App = () => (
             <Route path="/account" element={<AccountPage />} />
             <Route path="/character/:id" element={<CharacterPage />} />
             <Route path="/guild/:id" element={<GuildPage />} />
+            <Route path="/rankings" element={<RankingsPage />} />
+            <Route path="/admin" element={<AdminPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

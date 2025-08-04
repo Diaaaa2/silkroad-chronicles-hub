@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 
 const AccountPage = () => {
   const { user, logout, isAuthenticated } = useAuth();
@@ -247,9 +247,11 @@ const AccountPage = () => {
                                 </div>
                               </div>
                               
-                              <Button variant="outline" size="sm" className="w-full">
-                                View Details
-                              </Button>
+                              <Link to={`/character/${character.CharID}`}>
+                                <Button variant="outline" size="sm" className="w-full">
+                                  View Details
+                                </Button>
+                              </Link>
                             </CardContent>
                           </Card>
                         ))}

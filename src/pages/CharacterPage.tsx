@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import InventoryGrid from "@/components/InventoryGrid";
 
 const CharacterPage = () => {
   const { id } = useParams();
@@ -111,89 +112,37 @@ const CharacterPage = () => {
                   </CardContent>
                 </Card>
 
-                {/* Equipment */}
+                {/* Location Info */}
                 <Card className="bg-gradient-card border border-primary/20">
                   <CardHeader>
-                    <CardTitle className="text-primary">Equipment</CardTitle>
+                    <CardTitle className="text-primary">Location & Additional Info</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-3">
-                      {equipment.length > 0 ? (
-                        equipment.map((item, index) => (
-                          <div key={index} className="flex justify-between items-center p-2 bg-muted/30 rounded border border-primary/10">
-                            <div>
-                              <div className="text-sm font-medium">Slot {item.Slot}</div>
-                              <div className="text-xs text-muted-foreground">ID: {item.RefItemID}</div>
-                            </div>
-                            <div className="text-right">
-                              <div className="text-sm text-yellow-400">+{item.OptLevel}</div>
-                              <div className="text-xs text-muted-foreground">Var: {item.Variance}</div>
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="text-center text-muted-foreground py-8">
-                          No equipment equipped
+                    <div className="space-y-4">
+                      <div>
+                        <div className="text-sm text-muted-foreground">Current Region</div>
+                        <div className="text-lg font-semibold">{character.LatestRegion}</div>
+                      </div>
+                      <div>
+                        <div className="text-sm text-muted-foreground">Position</div>
+                        <div className="text-sm">
+                          X: {character.PosX}, Y: {character.PosY}, Z: {character.PosZ}
                         </div>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Avatar Items */}
-                <Card className="bg-gradient-card border border-primary/20">
-                  <CardHeader>
-                    <CardTitle className="text-primary">Avatar Items</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {avatar.length > 0 ? (
-                        avatar.map((item, index) => (
-                          <div key={index} className="flex justify-between items-center p-2 bg-muted/30 rounded border border-primary/10">
-                            <div>
-                              <div className="text-sm font-medium">Slot {item.Slot}</div>
-                              <div className="text-xs text-muted-foreground">ID: {item.RefItemID}</div>
-                            </div>
-                            <div className="text-right">
-                              <div className="text-sm text-purple-400">+{item.OptLevel}</div>
-                              <div className="text-xs text-muted-foreground">Var: {item.Variance}</div>
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="text-center text-muted-foreground py-8">
-                          No avatar items equipped
-                        </div>
-                      )}
+                      </div>
+                      <div>
+                        <div className="text-sm text-muted-foreground">Inventory Size</div>
+                        <div className="text-lg font-semibold">{character.InventorySize}</div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
               </div>
 
-              {/* Location Info */}
-              <Card className="bg-gradient-card border border-primary/20 mt-6">
-                <CardHeader>
-                  <CardTitle className="text-primary">Location & Additional Info</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div>
-                      <div className="text-sm text-muted-foreground">Current Region</div>
-                      <div className="text-lg font-semibold">{character.LatestRegion}</div>
-                    </div>
-                    <div>
-                      <div className="text-sm text-muted-foreground">Position</div>
-                      <div className="text-sm">
-                        X: {character.PosX}, Y: {character.PosY}, Z: {character.PosZ}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-sm text-muted-foreground">Inventory Size</div>
-                      <div className="text-lg font-semibold">{character.InventorySize}</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              {/* Inventory Grid */}
+              <div className="mt-6">
+                <InventoryGrid equipment={equipment} avatar={avatar} />
+              </div>
+
             </div>
           </div>
         </section>

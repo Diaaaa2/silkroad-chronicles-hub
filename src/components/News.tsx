@@ -51,7 +51,7 @@ const News = () => {
                 <CardDescription className="text-muted-foreground">
                   {article.description}
                 </CardDescription>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" onClick={() => window.open('#', '_blank')}>
                   Read More
                 </Button>
               </CardContent>
@@ -60,7 +60,7 @@ const News = () => {
         </div>
         
         <div className="text-center mt-12">
-          <Button variant="epic" size="lg">
+          <Button variant="epic" size="lg" onClick={() => window.open('#', '_blank')}>
             View All News
           </Button>
         </div>

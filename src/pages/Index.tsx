@@ -8,6 +8,7 @@ import Rankings from "@/components/Rankings";
 import News from "@/components/News";
 import Download from "@/components/Download";
 import Footer from "@/components/Footer";
+import DiscordEmbed from "@/components/DiscordEmbed";
 
 const Index = () => {
   return (
@@ -20,6 +21,7 @@ const Index = () => {
       
       <Rankings />
       <News />
+      <DiscordEmbed />
       <Download />
       <Footer />
     </div>
